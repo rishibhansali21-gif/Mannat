@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 700">
-<rect width="700" height="700" fill="#FBF6EE"/>
-<circle cx="350" cy="310" r="200" fill="#9E1B32"/>
-<circle cx="350" cy="310" r="200" fill="#ffffff" opacity="0.08"/>
-<text x="350" y="390" text-anchor="middle" font-family="Georgia, 'Playfair Display', 'Times New Roman', serif" font-weight="bold" font-size="220" fill="#FFF8F0">J</text>
-<text x="350" y="600" text-anchor="middle" font-family="Georgia, 'Playfair Display', 'Times New Roman', serif" font-weight="bold" font-size="46" fill="#2B1A17">Jewellery</text>
-<text x="350" y="70" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="26" letter-spacing="6" fill="#C9A24B">MANNAT</text>
-</svg>
