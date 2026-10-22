@@ -1,14 +1,14 @@
 # MANNAT — Ethnic Wear Storefront
 
-A complete, mobile-first e-commerce website for the Indian ethnic wear brand
-**MANNAT**. Pure HTML5 + CSS3 + vanilla JavaScript — no frameworks, no build
+A complete, premium e-commerce website for the Indian ethnic wear brand
+**MANNAT** — *“Woven with grace, blessed with beauty.”* (मन्नत) Pure HTML5 + CSS3 + vanilla JavaScript — no frameworks, no build
 step. Host it free on GitHub Pages.
 
 ## What you get
 
 | Page | File | What it does |
 |---|---|---|
-| Home | `index.html` | Announcement bar, sticky header, hero slider, category tiles, Bestsellers / Trending / Ethnic Store / Jewellery rails, promo banner, trust strip, reviews, Instagram strip, newsletter, footer |
+| Home | `index.html` | Slim announcement bar, premium transparent-to-solid sticky header, editorial hero slider, Shop by Collection, New Arrivals & Bestsellers grids, promo collection cards, brand story, trust strip, reviews, Instagram strip, newsletter, footer |
 | Shop | `collections.html` | Category, price & color filters, sorting, live search results, wishlist view |
 | Product | `product.html?id=...` | Image gallery, size & quantity selectors, Add to Cart, Buy on WhatsApp, accordions, related products, schema.org markup |
 | Bag | `cart.html` | Quantity update, remove, subtotal, WhatsApp checkout |
@@ -70,12 +70,12 @@ Open `data/products.json`. Each product looks like this:
 {
   "id": "kurta-gulnaar",                 // unique, no spaces
   "name": "Gulnaar Straight Kurta Set",
-  "category": "Kurta Sets",             // Sarees | Kurta Sets | Co-ord Sets | Jewellery
+  "category": "Kurtis",                 // Kurtis | Co-ord Sets
   "images": ["assets/images/prod-kurta-gulnaar-a.jpg",
              "assets/images/prod-kurta-gulnaar-b.jpg"],
   "mrp": 1999,                          // strikethrough price
   "salePrice": 899,                     // selling price (₹)
-  "sizes": ["S","M","L","XL","XXL"],    // use ["One Size"] for jewellery
+  "sizes": ["S","M","L","XL","XXL"],    // size options shown as selectable buttons
   "colors": ["Maroon","Beige"],         // shown as filter swatches
   "description": "Short product description…",
   "tags": ["bestseller","new"]          // bestseller | trending | new (drives home sections)
@@ -86,9 +86,9 @@ Open `data/products.json`. Each product looks like this:
   `assets/images/`. Any web format works (SVG, JPG, PNG) — ~800×1000px JPGs
   look best for real product shots.
 - **% OFF badge** is calculated automatically from `mrp` and `salePrice`.
-- Home sections are automatic: `bestseller` → Bestsellers rail,
-  `trending` → Trending Now, category `Kurta Sets` → Ethnic Store,
-  category `Jewellery` → Jewellery rail, `new` → New Arrivals tile.
+- Home sections are automatic: `bestseller` → Bestsellers grid, `new` → New Arrivals grid.
+  Promo cards link to tag collections: `wedding` → Wedding Collection,
+  `under999` → Under ₹999, `everyday` → Everyday Elegance.
 
 ## (d) Change WhatsApp number & brand details
 
@@ -99,9 +99,9 @@ Open `data/products.json`. Each product looks like this:
    The footer contact links (`https://wa.me/91XXXXXXXXXX`) in the four HTML
    files should be updated too — search for `91XXXXXXXXXX` and replace all.
 2. **Brand colors** — open `css/style.css`, edit the `:root` variables at the
-   very top (marked `★ EDIT YOUR BRAND COLORS HERE`).
-3. **Fonts** — same file: `--font-head` and `--font-body`, plus the Google
-   Fonts `<link>` in each HTML `<head>`.
+   very top: maroon `#8F1F2D`, ivory `#F3E2C5`, cream `#FFF8EF`, espresso `#2B1B14`, antique gold `#C8A96A`.
+3. **Fonts** — same file: `--font-head` (Cormorant Garamond) and `--font-body` (DM Sans),
+   plus the Google Fonts `<link>` in each HTML `<head>`.
 4. **Announcement / hero / promo text** — edit directly in `index.html`
    (sections are marked with `★` comments).
 5. **Images** — swap any file in `assets/images/` keeping the same filename,

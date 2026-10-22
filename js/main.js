@@ -72,11 +72,7 @@ function bindCardButtons(scope) {
   $all('[data-add]', scope).forEach(btn => btn.addEventListener('click', () => {
     const p = byId(btn.dataset.add);
     if (!p) return;
-    const size = p.sizes.length === 1 ? p.sizes[0] : null;
-    if (!size) { // needs a size -> go to product page
-      location.href = 'product.html?id=' + p.id;
-      return;
-    }
+    const size = p.sizes.includes('M') ? 'M' : p.sizes[0]; // quick-add with default size
     Cart.add(p.id, size, 1);
     toast(p.name + ' added to bag ✓');
     renderDrawer();
@@ -186,18 +182,19 @@ function railHTML(products) {
   return products.map(productCardHTML).join('');
 }
 function initHome() {
-  const best = PRODUCTS.filter(p => (p.tags || []).includes('bestseller'));
-  const trend = PRODUCTS.filter(p => (p.tags || []).includes('trending'));
-  const ethnic = PRODUCTS.filter(p => p.category === 'Kurta Sets');
-  const jewel = PRODUCTS.filter(p => p.category === 'Jewellery');
-  const mount = (id, list) => {
+  const grid = (id, list) => {
     const el = document.getElementById(id);
-    if (el) { el.innerHTML = railHTML(list); bindCardButtons(el); }
+    if (el) { el.innerHTML = list.map(productCardHTML).join(''); bindCardButtons(el); }
   };
-  mount('railBestsellers', best);
-  mount('railTrending', trend);
-  mount('railEthnic', ethnic);
-  mount('railJewellery', jewel);
+  grid('gridNew', PRODUCTS.filter(p => (p.tags || []).includes('new')));
+  grid('gridBestsellers', PRODUCTS.filter(p => (p.tags || []).includes('bestseller')));
+  // premium transparent header -> solid on scroll (home only)
+  const header = document.getElementById('siteHeader');
+  if (header) {
+    const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 24);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
 }
 
 /* ==========================================================================
@@ -205,12 +202,12 @@ function initHome() {
    ========================================================================== */
 const Shop = {
   cats: new Set(), colors: new Set(), prices: new Set(),
-  sort: 'featured', search: '',
+  sort: 'featured', search: '', tag: null, // tag: new | wedding | under999 | everyday
 };
 function initCollections() {
   const params = new URLSearchParams(location.search);
   if (params.get('category')) Shop.cats.add(params.get('category'));
-  if (params.get('tag') === 'new') Shop._tagNew = true;
+  if (params.get('tag')) Shop.tag = params.get('tag');
   if (params.get('search')) Shop.search = params.get('search');
   if (params.get('sort')) Shop.sort = params.get('sort');
   if (params.get('wishlist') === '1') Shop._wishlist = true;
@@ -247,7 +244,7 @@ function initCollections() {
   $('#sortSel').addEventListener('change', e => { Shop.sort = e.target.value; applyShop(); });
   $('#clearFilters').addEventListener('click', () => {
     Shop.cats.clear(); Shop.colors.clear(); Shop.prices.clear();
-    Shop._tagNew = false; Shop._wishlist = false; Shop.search = '';
+    Shop.tag = null; Shop._wishlist = false; Shop.search = '';
     $('#minPrice').value = ''; $('#maxPrice').value = '';
     history.replaceState(null, '', 'collections.html');
     initCollections(); // rebuild UI
@@ -272,7 +269,7 @@ function applyShop() {
     if (!isNaN(min) && p.salePrice < min) return false;
     if (!isNaN(max) && p.salePrice > max) return false;
     if (Shop._wishlist && !Wishlist.has(p.id)) return false;
-    if (Shop._tagNew && !(p.tags || []).includes('new')) return false;
+    if (Shop.tag && !(p.tags || []).includes(Shop.tag)) return false;
     if (Shop.search && !(p.name + ' ' + p.category).toLowerCase().includes(Shop.search.toLowerCase())) return false;
     return true;
   });
@@ -285,9 +282,12 @@ function applyShop() {
   grid.innerHTML = list.length ? list.map(productCardHTML).join('') :
     `<div class="empty-state"><h3>No matches found</h3><p>Try clearing a filter or two.</p></div>`;
   bindCardButtons(grid);
-  // reflect category in the title when launched from a tile
+  // reflect tag/category in the title when launched from a tile or promo card
+  const TAG_TITLES = { new: 'New Arrivals', wedding: 'Wedding Collection', under999: 'Under ₹999', everyday: 'Everyday Elegance' };
   if (Shop._wishlist) {
     $('#shopTitle').textContent = 'My Wishlist';
+  } else if (Shop.tag && TAG_TITLES[Shop.tag]) {
+    $('#shopTitle').textContent = TAG_TITLES[Shop.tag];
   } else if (Shop.cats.size === 1 && !Shop.search) {
     $('#shopTitle').textContent = [...Shop.cats][0];
   }

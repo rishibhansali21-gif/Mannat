@@ -4,21 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- ★ EDIT: page title & description for SEO -->
-  <title>MANNAT — Ethnic Wear for Women | Sarees, Kurta Sets, Co-ords</title>
-  <meta name="description" content="Shop MANNAT — festive yet affordable ethnic wear for women. Sarees, kurta sets, co-ord sets & jewellery. Free shipping, COD available, easy returns.">
-  <meta property="og:title" content="MANNAT — Woven with Grace">
-  <meta property="og:description" content="Festive, premium-yet-affordable ethnic wear. Up to 60% off.">
+  <title>MANNAT — Premium Indian Ethnic Wear for Women | Kurtis & Co-ord Sets</title>
+  <meta name="description" content="Shop MANNAT — premium Indian ethnic wear for women. Elegant kurtis, co-ord sets & wedding collection. Woven with grace, blessed with beauty. Free shipping, COD available.">
+  <meta property="og:title" content="MANNAT — Woven with Grace, Blessed with Beauty">
+  <meta property="og:description" content="Premium ethnic wear for the modern Indian woman. Kurtis, co-ord sets & wedding edits.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/images/hero-1.svg">
-  <meta name="theme-color" content="#9E1B32">
+  <meta name="theme-color" content="#8F1F2D">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌺</text></svg>">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Organization","name":"MANNAT",
-   "description":"D2C ethnic wear for women — sarees, kurta sets, co-ord sets and jewellery."}
+   "slogan":"Woven with grace, blessed with beauty.",
+   "description":"Premium women's Indian ethnic wear — kurtis, co-ord sets and wedding collection."}
   </script>
 </head>
 <body data-page="home">
@@ -27,7 +28,7 @@
   <div class="announce"><span>Free Shipping</span><span>COD Available</span><span>Easy Returns</span></div>
 
   <!-- ★ HEADER -->
-  <header class="site-header">
+  <header class="site-header" id="siteHeader">
     <div class="wrap header-inner">
       <button class="icon-btn hamburger" id="menuOpen" aria-label="Open menu">
         <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -36,10 +37,9 @@
       <nav class="desktop-nav" aria-label="Primary">
         <a href="index.html">Home</a>
         <a href="collections.html">Shop All</a>
-        <a href="collections.html?category=Sarees">Sarees</a>
-        <a href="collections.html?category=Kurta%20Sets">Kurta Sets</a>
-        <a href="collections.html?category=Co-ord%20Sets">Co-ords</a>
-        <a href="collections.html?category=Jewellery">Jewellery</a>
+        <a href="collections.html?category=Kurtis">Kurtis</a>
+        <a href="collections.html?category=Co-ord%20Sets">Co-ord Sets</a>
+        <a href="collections.html?tag=wedding">Wedding</a>
       </nav>
       <div class="header-spacer"></div>
       <div class="search-wrap">
@@ -47,6 +47,9 @@
           <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
         </button>
       </div>
+      <a class="icon-btn" href="#" aria-label="Account">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.8-4 5-6 8-6s6.2 2 8 6"/></svg>
+      </a>
       <a class="icon-btn" href="collections.html?wishlist=1" aria-label="Wishlist">
         <svg viewBox="0 0 24 24"><path d="M12 20.5s-8-5.1-10.5-9.7C.2 7.9 2.2 4.5 5.6 4.5c2 0 3.6 1.2 4.4 2.9 1.2-1.7 3-2.9 5-2.9 3.4 0 5.4 3.4 4.1 6.3C20 15.4 12 20.5 12 20.5z"/></svg>
         <span class="count-badge" id="wishCount" hidden>0</span>
@@ -58,7 +61,7 @@
     </div>
     <div class="search-panel" id="searchPanel" hidden>
       <div class="wrap">
-        <input id="searchInput" type="search" placeholder="Search kurtas, sarees, jewellery…" aria-label="Search products" autocomplete="off">
+        <input id="searchInput" type="search" placeholder="Search kurtis, co-ord sets…" aria-label="Search products" autocomplete="off">
         <div class="search-suggest" id="searchSuggest" role="listbox"></div>
       </div>
     </div>
@@ -74,10 +77,9 @@
     <nav>
       <a href="index.html">Home</a>
       <a href="collections.html">Shop All</a>
-      <a class="cat-link" href="collections.html?category=Sarees">Sarees</a>
-      <a class="cat-link" href="collections.html?category=Kurta%20Sets">Kurta Sets</a>
+      <a class="cat-link" href="collections.html?category=Kurtis">Kurtis</a>
       <a class="cat-link" href="collections.html?category=Co-ord%20Sets">Co-ord Sets</a>
-      <a class="cat-link" href="collections.html?category=Jewellery">Jewellery</a>
+      <a class="cat-link" href="collections.html?tag=wedding">Wedding Collection</a>
       <a href="collections.html?tag=new">✨ New Arrivals</a>
       <a href="collections.html?wishlist=1">♡ My Wishlist</a>
     </nav>
@@ -88,30 +90,30 @@
     <section class="hero" aria-label="Featured">
       <div class="hero-track" id="heroTrack">
         <div class="hero-slide">
-          <img class="bg" src="assets/images/hero-1.svg" alt="Festive ethnic wear collection" fetchpriority="high">
+          <img class="bg" src="assets/images/hero-1.svg" alt="MANNAT festive ethnic wear" fetchpriority="high">
           <div class="wrap hero-copy">
-            <p class="hero-kicker">Festive Edit 2026</p>
-            <h1>Drape Yourself in Celebration</h1>
-            <p>Sarees, kurta sets &amp; more — now at up to 60% off.</p>
-            <a class="btn" href="collections.html">Shop Now</a>
+            <p class="hero-kicker">The Festive Edit</p>
+            <h1>Woven with Grace,<br>Blessed with Beauty</h1>
+            <p>MANNAT's signature ethnic wear — kurtis &amp; co-ords crafted for every Indian moment.</p>
+            <a class="btn" href="collections.html?tag=new">Shop New Arrivals</a>
           </div>
         </div>
         <div class="hero-slide">
-          <img class="bg" src="assets/images/hero-2.svg" alt="New ethnic wear arrivals" loading="lazy">
+          <img class="bg" src="assets/images/hero-2.svg" alt="MANNAT wedding collection" loading="lazy">
           <div class="wrap hero-copy">
-            <p class="hero-kicker">New Arrivals</p>
-            <h1>Fresh Drops, Every Week</h1>
-            <p>Co-ord sets &amp; kurtas in sizes S to XXL.</p>
-            <a class="btn" href="collections.html?tag=new">Explore New</a>
+            <p class="hero-kicker">Wedding Season</p>
+            <h1>Regal Maroons for Grand Celebrations</h1>
+            <p>Anarkalis, festive kurtis &amp; co-ords — now at up to 50% off.</p>
+            <a class="btn" href="collections.html?tag=wedding">Shop Wedding</a>
           </div>
         </div>
         <div class="hero-slide">
-          <img class="bg" src="assets/images/hero-3.svg" alt="Gold jewellery collection" loading="lazy">
+          <img class="bg" src="assets/images/hero-3.svg" alt="MANNAT everyday elegance" loading="lazy">
           <div class="wrap hero-copy">
-            <p class="hero-kicker">Jewellery Edit</p>
-            <h1>Finishing Touches in Gold</h1>
-            <p>Jhumkas &amp; kundan sets starting at just ₹399.</p>
-            <a class="btn" href="collections.html?category=Jewellery">Shop Jewellery</a>
+            <p class="hero-kicker">Everyday Elegance</p>
+            <h1>Comfort Meets Craft</h1>
+            <p>Daily kurtis &amp; co-ords, starting under ₹999.</p>
+            <a class="btn" href="collections.html?tag=under999">Shop Under ₹999</a>
           </div>
         </div>
       </div>
@@ -120,18 +122,47 @@
       <div class="hero-dots" id="heroDots" role="tablist" aria-label="Slide navigation"></div>
     </section>
 
-    <!-- ★ CATEGORY TILES -->
+    <!-- ★ SHOP BY COLLECTION -->
     <section class="section">
       <div class="wrap">
         <div class="section-head reveal">
-          <div><h2>Shop by Category</h2><p class="section-sub">Find your perfect festive look</p></div>
+          <div><h2>Shop by Collection</h2><p class="section-sub">Curated edits for every occasion</p></div>
         </div>
-        <div class="cat-row reveal">
-          <a class="cat-tile" href="collections.html?category=Sarees"><span class="cat-img"><img src="assets/images/cat-sarees.svg" alt="Sarees" loading="lazy"></span><span>Sarees</span></a>
-          <a class="cat-tile" href="collections.html?category=Kurta%20Sets"><span class="cat-img"><img src="assets/images/cat-kurta-sets.svg" alt="Kurta Sets" loading="lazy"></span><span>Kurta Sets</span></a>
-          <a class="cat-tile" href="collections.html?category=Co-ord%20Sets"><span class="cat-img"><img src="assets/images/cat-co-ord-sets.svg" alt="Co-ord Sets" loading="lazy"></span><span>Co-ord Sets</span></a>
-          <a class="cat-tile" href="collections.html?category=Jewellery"><span class="cat-img"><img src="assets/images/cat-jewellery.svg" alt="Jewellery" loading="lazy"></span><span>Jewellery</span></a>
-          <a class="cat-tile" href="collections.html?tag=new"><span class="cat-img"><img src="assets/images/cat-new-arrivals.svg" alt="New Arrivals" loading="lazy"></span><span>New Arrivals</span></a>
+        <div class="cat-row reveal" style="grid-template-columns:repeat(3,1fr)">
+          <a class="cat-tile" href="collections.html?category=Kurtis"><span class="cat-img"><img src="assets/images/cat-kurtis.svg" alt="Kurtis" loading="lazy"></span></a>
+          <a class="cat-tile" href="collections.html?category=Co-ord%20Sets"><span class="cat-img"><img src="assets/images/cat-co-ord-sets.svg" alt="Co-ord Sets" loading="lazy"></span></a>
+          <a class="cat-tile" href="collections.html?tag=wedding"><span class="cat-img"><img src="assets/images/cat-wedding.svg" alt="Wedding Collection" loading="lazy"></span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ★ NEW ARRIVALS -->
+    <section class="section" style="padding-top:0">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><h2>New Arrivals</h2><p class="section-sub">Fresh from the atelier</p></div>
+          <a class="view-all" href="collections.html?tag=new">View all →</a>
+        </div>
+        <div class="product-grid" id="gridNew" data-skeleton></div>
+      </div>
+    </section>
+
+    <!-- ★ PROMO COLLECTION CARDS -->
+    <section class="section" style="padding-top:0">
+      <div class="wrap">
+        <div class="promo-cards reveal">
+          <a class="promo-card" href="collections.html?tag=everyday">
+            <img src="assets/images/hero-3.svg" alt="Everyday Elegance" loading="lazy">
+            <div><h3>Everyday Elegance</h3><p>Comfort-first kurtis for daily grace</p><span class="cta">SHOP NOW →</span></div>
+          </a>
+          <a class="promo-card" href="collections.html?tag=under999">
+            <img src="assets/images/hero-1.svg" alt="Under 999" loading="lazy">
+            <div><h3>Under ₹999</h3><p>Premium picks, honest prices</p><span class="cta">SHOP NOW →</span></div>
+          </a>
+          <a class="promo-card" href="collections.html?tag=wedding">
+            <img src="assets/images/hero-2.svg" alt="Wedding Collection" loading="lazy">
+            <div><h3>Wedding Collection</h3><p>Regal edits for grand days</p><span class="cta">SHOP NOW →</span></div>
+          </a>
         </div>
       </div>
     </section>
@@ -140,54 +171,34 @@
     <section class="section" style="padding-top:0">
       <div class="wrap">
         <div class="section-head reveal">
-          <div><h2>Bestsellers</h2><p class="section-sub">Loved by thousands of customers</p></div>
+          <div><h2>Bestsellers</h2><p class="section-sub">Loved by thousands of women across India</p></div>
           <a class="view-all" href="collections.html">View all →</a>
         </div>
-        <div class="rail" id="railBestsellers" data-skeleton></div>
+        <div class="product-grid" id="gridBestsellers" data-skeleton></div>
       </div>
     </section>
 
-    <!-- ★ PROMO BANNER -->
+    <!-- ★ BRAND STORY -->
     <section class="section" style="padding-top:0">
       <div class="wrap">
-        <div class="promo reveal">
-          <h2>Festive Sale — Up to 60% OFF</h2>
-          <p>Plus free shipping &amp; COD on every order. Limited period.</p>
-          <a class="btn" href="collections.html">Grab the Deals</a>
+        <div class="story reveal">
+          <div class="story-grid">
+            <div>
+              <p class="hindi">मन्नत</p>
+              <h2>The House of MANNAT</h2>
+              <p>Born from a love of Indian craftsmanship, MANNAT creates ethnic wear that honours tradition while embracing the modern Indian woman. Every kurti and co-ord set is cut from fine fabrics, finished with thoughtful detailing, and priced with honesty.</p>
+              <p>Woven with grace, blessed with beauty — this is not just our tagline, it is our promise in every stitch.</p>
+              <div class="story-stats">
+                <div><b>50,000+</b><span>HAPPY CUSTOMERS</span></div>
+                <div><b>4.8 ★</b><span>AVERAGE RATING</span></div>
+                <div><b>500+</b><span>DESIGNS CRAFTED</span></div>
+              </div>
+            </div>
+            <div>
+              <img src="assets/images/hero-2.svg" alt="MANNAT brand story" loading="lazy" style="border-radius:14px;border:1px solid var(--gold)">
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
-
-    <!-- ★ TRENDING -->
-    <section class="section" style="padding-top:0">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div><h2>Trending Now</h2><p class="section-sub">What everyone’s adding to bag</p></div>
-          <a class="view-all" href="collections.html">View all →</a>
-        </div>
-        <div class="rail" id="railTrending" data-skeleton></div>
-      </div>
-    </section>
-
-    <!-- ★ ETHNIC STORE -->
-    <section class="section" style="padding-top:0">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div><h2>The Ethnic Store</h2><p class="section-sub">Kurta &amp; kurti sets for every day</p></div>
-          <a class="view-all" href="collections.html?category=Kurta%20Sets">View all →</a>
-        </div>
-        <div class="rail" id="railEthnic" data-skeleton></div>
-      </div>
-    </section>
-
-    <!-- ★ JEWELLERY -->
-    <section class="section" style="padding-top:0">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div><h2>Jewellery</h2><p class="section-sub">The perfect finishing touch</p></div>
-          <a class="view-all" href="collections.html?category=Jewellery">View all →</a>
-        </div>
-        <div class="rail" id="railJewellery" data-skeleton></div>
       </div>
     </section>
 
@@ -222,17 +233,17 @@
         <div class="rev-grid">
           <div class="rev-card reveal">
             <div class="rev-stars">★★★★★</div>
-            <p>“The Banarasi saree looks far more premium than its price. Got so many compliments at my sister’s wedding!”</p>
+            <p>“The Anarkali set feels truly premium — the fabric, the fall, the finishing. MANNAT has a customer for life.”</p>
             <div class="rev-who"><span class="rev-ava">P</span><div><b>Priya S.</b><small>Mumbai · Verified Buyer</small></div></div>
           </div>
           <div class="rev-card reveal">
             <div class="rev-stars">★★★★★</div>
-            <p>“Ordered a kurta set on COD, delivered in 3 days. Fabric quality is excellent and the fit is perfect.”</p>
+            <p>“Ordered a festive co-ord for Diwali — delivered in 3 days on COD. Elegant packaging, beautiful fit.”</p>
             <div class="rev-who"><span class="rev-ava">A</span><div><b>Ananya R.</b><small>Bengaluru · Verified Buyer</small></div></div>
           </div>
           <div class="rev-card reveal">
-            <div class="rev-stars">★★★★☆</div>
-            <p>“Beautiful co-ord set, super comfortable. Wish there were more colours — will definitely order again.”</p>
+            <div class="rev-stars">★★★★★</div>
+            <p>“Finally, daily kurtis that don't look boring. The under-₹999 picks are unbelievable value.”</p>
             <div class="rev-who"><span class="rev-ava">K</span><div><b>Kavya M.</b><small>Delhi · Verified Buyer</small></div></div>
           </div>
         </div>
@@ -262,7 +273,7 @@
       <div class="wrap">
         <div class="newsletter reveal">
           <h2>Get ₹200 Off Your First Order</h2>
-          <p>Join 50,000+ women for early access to drops &amp; secret sales.</p>
+          <p>Join 50,000+ women for early access to drops &amp; private sales.</p>
           <form class="nl-form" id="nlForm" novalidate>
             <input id="nlEmail" type="email" placeholder="Your email address" aria-label="Email address" required>
             <button class="btn" type="submit">Join</button>
@@ -278,7 +289,7 @@
     <div class="wrap footer-grid">
       <div class="footer-brand">
         <span class="logo">MANNAT</span>
-        <p>Festive, premium-yet-affordable ethnic wear for the modern Indian woman. Designed with love, priced with honesty.</p>
+        <p>Woven with grace, blessed with beauty. Premium Indian ethnic wear for the modern woman — crafted with love, priced with honesty.</p>
         <div class="social-row">
           <a href="#" aria-label="Instagram">IG</a>
           <a href="#" aria-label="Facebook">FB</a>
@@ -293,10 +304,10 @@
         <p class="f-title">Shop</p>
         <ul>
           <li><a href="collections.html?tag=new">New Arrivals</a></li>
-          <li><a href="collections.html?category=Sarees">Sarees</a></li>
-          <li><a href="collections.html?category=Kurta%20Sets">Kurta Sets</a></li>
+          <li><a href="collections.html?category=Kurtis">Kurtis</a></li>
           <li><a href="collections.html?category=Co-ord%20Sets">Co-ord Sets</a></li>
-          <li><a href="collections.html?category=Jewellery">Jewellery</a></li>
+          <li><a href="collections.html?tag=wedding">Wedding Collection</a></li>
+          <li><a href="collections.html?tag=under999">Under ₹999</a></li>
         </ul>
       </div>
       <div>
@@ -318,7 +329,7 @@
         </ul>
       </div>
     </div>
-    <div class="footer-bottom"><div class="wrap">© <span id="year">2026</span> MANNAT. All rights reserved. Made with ♥ in India.</div></div>
+    <div class="footer-bottom"><div class="wrap">© <span id="year">2026</span> MANNAT · मन्नत. All rights reserved. Made with ♥ in India.</div></div>
   </footer>
 
   <script src="js/cart.js"></script>
