@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product — MANNAT Ethnic Wear</title>
+  <meta name="description" content="Shop this MANNAT ethnic wear piece. Free shipping, COD available, easy 7-day returns.">
+  <meta property="og:type" content="product">
+  <meta name="theme-color" content="#9E1B32">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌺</text></svg>">
+</head>
+<body data-page="product">
+
+  <div class="announce"><span>Free Shipping</span><span>COD Available</span><span>Easy Returns</span></div>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <button class="icon-btn hamburger" id="menuOpen" aria-label="Open menu">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <a href="index.html" class="logo" aria-label="MANNAT home">MANNAT<small>WOVEN WITH GRACE</small></a>
+      <nav class="desktop-nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="collections.html">Shop All</a>
+        <a href="collections.html?category=Sarees">Sarees</a>
+        <a href="collections.html?category=Kurta%20Sets">Kurta Sets</a>
+        <a href="collections.html?category=Co-ord%20Sets">Co-ords</a>
+        <a href="collections.html?category=Jewellery">Jewellery</a>
+      </nav>
+      <div class="header-spacer"></div>
+      <div class="search-wrap">
+        <button class="icon-btn" id="searchBtn" aria-label="Search products">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+        </button>
+      </div>
+      <a class="icon-btn" href="collections.html?wishlist=1" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24"><path d="M12 20.5s-8-5.1-10.5-9.7C.2 7.9 2.2 4.5 5.6 4.5c2 0 3.6 1.2 4.4 2.9 1.2-1.7 3-2.9 5-2.9 3.4 0 5.4 3.4 4.1 6.3C20 15.4 12 20.5 12 20.5z"/></svg>
+        <span class="count-badge" id="wishCount" hidden>0</span>
+      </a>
+      <button class="icon-btn" id="cartBtn" aria-label="Open shopping bag">
+        <svg viewBox="0 0 24 24"><path d="M6 8h12l-1.2 12.2a1 1 0 0 1-1 .8H8.2a1 1 0 0 1-1-.8L6 8z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>
+        <span class="count-badge" id="cartCount" hidden>0</span>
+      </button>
+    </div>
+    <div class="search-panel" id="searchPanel" hidden>
+      <div class="wrap">
+        <input id="searchInput" type="search" placeholder="Search kurtas, sarees, jewellery…" aria-label="Search products" autocomplete="off">
+        <div class="search-suggest" id="searchSuggest" role="listbox"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="drawer-scrim" id="navScrim"></div>
+  <aside class="drawer" id="navDrawer" aria-label="Menu">
+    <div class="drawer-head">
+      <span class="logo">MANNAT</span>
+      <button class="icon-btn" id="navClose" aria-label="Close menu">✕</button>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="collections.html">Shop All</a>
+      <a class="cat-link" href="collections.html?category=Sarees">Sarees</a>
+      <a class="cat-link" href="collections.html?category=Kurta%20Sets">Kurta Sets</a>
+      <a class="cat-link" href="collections.html?category=Co-ord%20Sets">Co-ord Sets</a>
+      <a class="cat-link" href="collections.html?category=Jewellery">Jewellery</a>
+      <a href="collections.html?tag=new">✨ New Arrivals</a>
+      <a href="collections.html?wishlist=1">♡ My Wishlist</a>
+    </nav>
+  </aside>
+
+  <main class="wrap" id="pdRoot">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="index.html">Home</a> / <a href="collections.html" id="crumbCat">Shop</a> / <span id="crumbName">Product</span>
+    </nav>
+
+    <div class="pd-layout">
+      <!-- ★ IMAGE GALLERY -->
+      <div class="pd-gallery">
+        <div class="pd-main"><img id="pdMainImg" src="" alt=""></div>
+        <div class="pd-thumbs" id="pdThumbs"></div>
+      </div>
+
+      <!-- ★ PRODUCT INFO -->
+      <div class="pd-info">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+          <div>
+            <p class="pcard-cat" id="pdCat"></p>
+            <h1 id="pdName"></h1>
+          </div>
+          <button class="wish-btn" id="pdWish" style="position:static;flex:0 0 auto" aria-label="Save to wishlist" aria-pressed="false">
+            <svg viewBox="0 0 24 24"><path d="M12 20.5s-8-5.1-10.5-9.7C.2 7.9 2.2 4.5 5.6 4.5c2 0 3.6 1.2 4.4 2.9 1.2-1.7 3-2.9 5-2.9 3.4 0 5.4 3.4 4.1 6.3C20 15.4 12 20.5 12 20.5z"/></svg>
+          </button>
+        </div>
+        <p class="pd-rating">★★★★★ <span>(4.6 · 230+ reviews)</span></p>
+        <div class="pd-price">
+          <span class="sale" id="pdSale"></span>
+          <span class="mrp" id="pdMrp"></span>
+          <span class="off" id="pdOff"></span>
+        </div>
+        <p class="pd-tax">Inclusive of all taxes</p>
+
+        <p class="pd-label">Colors</p>
+        <p id="pdColors" style="font-size:0.92rem"></p>
+
+        <p class="pd-label">Select Size</p>
+        <div class="size-row" id="sizeRow" role="radiogroup" aria-label="Sizes"></div>
+        <a class="size-guide-link" href="#">Size Guide</a>
+
+        <p class="pd-label">Quantity</p>
+        <div class="qty-row">
+          <button id="qMinus" aria-label="Decrease quantity">−</button>
+          <output id="qOut">1</output>
+          <button id="qPlus" aria-label="Increase quantity">+</button>
+        </div>
+
+        <div class="pd-actions">
+          <button class="btn btn-block" id="addBtn">Add to Cart</button>
+          <button class="btn btn-whatsapp btn-block" id="waBtn">Buy on WhatsApp</button>
+        </div>
+
+        <div class="pd-meta">
+          <span><b id="pdSku"></b></span>
+          <span>🚚 Free shipping · COD available</span>
+          <span>↩️ 7-day easy returns</span>
+        </div>
+
+        <div class="acc">
+          <div class="acc-item">
+            <button class="acc-btn" aria-expanded="false">Description</button>
+            <div class="acc-panel"><div id="pdDesc"></div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-btn" aria-expanded="false">Delivery &amp; Returns</button>
+            <div class="acc-panel"><div>Dispatched in 24–48 hours. Delivery in 3–7 working days across India. 7-day easy returns — no questions asked. COD available.</div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-btn" aria-expanded="false">Fabric &amp; Care</button>
+            <div class="acc-panel"><div>Gentle machine wash or hand wash in cold water. Dry in shade. Warm iron on reverse. Colors may vary slightly due to photography.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ★ RELATED PRODUCTS -->
+    <section class="section related">
+      <div class="section-head">
+        <div><h2>You May Also Like</h2></div>
+        <a class="view-all" href="collections.html">View all →</a>
+      </div>
+      <div class="rail" id="relGrid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <span class="logo">MANNAT</span>
+        <p>Festive, premium-yet-affordable ethnic wear for the modern Indian woman. Designed with love, priced with honesty.</p>
+        <div class="social-row">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Facebook">FB</a>
+          <a href="#" aria-label="YouTube">YT</a>
+          <a href="#" aria-label="WhatsApp">WA</a>
+        </div>
+        <div class="pay-row" aria-label="Accepted payments">
+          <span>UPI</span><span>VISA</span><span>MASTERCARD</span><span>RUPAY</span><span>COD</span><span>NET BANKING</span>
+        </div>
+      </div>
+      <div>
+        <p class="f-title">Shop</p>
+        <ul>
+          <li><a href="collections.html?tag=new">New Arrivals</a></li>
+          <li><a href="collections.html?category=Sarees">Sarees</a></li>
+          <li><a href="collections.html?category=Kurta%20Sets">Kurta Sets</a></li>
+          <li><a href="collections.html?category=Co-ord%20Sets">Co-ord Sets</a></li>
+          <li><a href="collections.html?category=Jewellery">Jewellery</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="f-title">Help</p>
+        <ul>
+          <li><a href="#">Shipping Policy</a></li>
+          <li><a href="#">Returns &amp; Exchange</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Size Guide</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="f-title">Contact</p>
+        <ul>
+          <li><a href="mailto:hello@mannat.example">hello@mannat.example</a></li>
+          <li><a href="https://wa.me/91XXXXXXXXXX">+91 XXXXX XXXXX</a></li>
+          <li>Mon–Sat, 10am–7pm IST</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom"><div class="wrap">© <span id="year">2026</span> MANNAT. All rights reserved. Made with ♥ in India.</div></div>
+  </footer>
+
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

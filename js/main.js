@@ -1,0 +1,510 @@
+/* ==========================================================================
+   MANNAT — main storefront logic. Loaded AFTER js/cart.js on every page.
+   Pages declare <body data-page="home|collections|product|cart">.
+   ========================================================================== */
+'use strict';
+
+/* ==========================================================================
+   ★ EDIT YOUR STORE SETTINGS HERE
+   ========================================================================== */
+const CONFIG = {
+  WHATSAPP_NUMBER: '91XXXXXXXXXX', // ★ EDIT: your WhatsApp number, country code + number, no "+" or spaces
+  BRAND: 'MANNAT',
+  TAGLINE: 'Woven with grace',
+  FREE_SHIP_THRESHOLD: 0,         // 0 = free shipping on everything (as advertised)
+};
+
+/* color name -> swatch hex (used on the collections filter) — ★ add yours */
+const COLOR_HEX = {
+  'Maroon': '#6E1423', 'Cherry Red': '#9E1B32', 'Red': '#C0392B',
+  'Beige': '#E9DCC8', 'Gold': '#C9A24B', 'Peach': '#F2C9A8',
+  'Olive': '#6B7245', 'Sage': '#9CAF88', 'Black': '#1c1a19',
+  'Terracotta': '#C96F4A', 'White': '#ffffff'
+};
+const swatchHex = name => COLOR_HEX[name] || '#E9DCC8';
+
+/* ---------- product data ---------- */
+let PRODUCTS = [];
+async function loadProducts() {
+  if (PRODUCTS.length) return PRODUCTS;
+  const res = await fetch('data/products.json');
+  if (!res.ok) throw new Error('products.json not found');
+  const data = await res.json();
+  PRODUCTS = data.products || [];
+  window.MANNAT_PRODUCTS = PRODUCTS; // cart.js reads this
+  return PRODUCTS;
+}
+const byId = id => PRODUCTS.find(p => p.id === id);
+const discountPct = p => Math.round((1 - p.salePrice / p.mrp) * 100);
+
+/* ---------- shared product card ---------- */
+function productCardHTML(p) {
+  const wished = Wishlist.has(p.id) ? 'active' : '';
+  return `
+  <article class="pcard" data-id="${p.id}">
+    <a class="pcard-media" href="product.html?id=${p.id}" aria-label="${esc(p.name)}">
+      <img src="${p.images[0]}" alt="${esc(p.name)}" loading="lazy">
+    </a>
+    <span class="off-badge">${discountPct(p)}% OFF</span>
+    <button class="wish-btn ${wished}" data-id="${p.id}" aria-label="Add to wishlist" aria-pressed="${!!wished}">
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.9-10-9.3C.4 8.6 2.3 5 5.8 5c2 0 3.4 1.1 4.2 2.4h4C14.8 6.1 16.2 5 18.2 5c3.5 0 5.4 3.6 3.8 6.7C19.5 16.1 12 21 12 21z" transform="scale(0.9) translate(1.3,1.3)"/></svg>
+    </button>
+    <div class="pcard-body">
+      <span class="pcard-cat">${esc(p.category)}</span>
+      <a href="product.html?id=${p.id}"><h3 class="pcard-name">${esc(p.name)}</h3></a>
+      <div class="pcard-price">
+        <span class="sale">${inr(p.salePrice)}</span>
+        <span class="mrp">${inr(p.mrp)}</span>
+      </div>
+      <button class="pcard-add" data-add="${p.id}">Add to Cart</button>
+    </div>
+  </article>`;
+}
+function skeletonHTML(n) {
+  return Array.from({ length: n }, () => `
+    <div class="skel"><div class="sk-img shimmer"></div>
+      <div class="sk-line shimmer" style="width:60%"></div>
+      <div class="sk-line shimmer" style="width:85%"></div>
+      <div class="sk-line shimmer" style="width:40%"></div></div>`).join('');
+}
+/* wire up Add-to-Cart + wishlist buttons inside a container */
+function bindCardButtons(scope) {
+  $all('[data-add]', scope).forEach(btn => btn.addEventListener('click', () => {
+    const p = byId(btn.dataset.add);
+    if (!p) return;
+    const size = p.sizes.length === 1 ? p.sizes[0] : null;
+    if (!size) { // needs a size -> go to product page
+      location.href = 'product.html?id=' + p.id;
+      return;
+    }
+    Cart.add(p.id, size, 1);
+    toast(p.name + ' added to bag ✓');
+    renderDrawer();
+    openCart();
+  }));
+  $all('.wish-btn', scope).forEach(btn => btn.addEventListener('click', e => {
+    e.preventDefault();
+    const added = Wishlist.toggle(btn.dataset.id);
+    btn.classList.toggle('active', added);
+    btn.setAttribute('aria-pressed', added);
+    toast(added ? 'Saved to wishlist ♡' : 'Removed from wishlist');
+    updateBadges();
+  }));
+}
+
+/* ==========================================================================
+   HEADER: mobile drawer, search with live suggestions
+   ========================================================================== */
+function initHeader() {
+  // mobile drawer
+  const open = $('#menuOpen'), drawer = $('#navDrawer'), scrim = $('#navScrim');
+  if (open && drawer) {
+    const close = () => {
+      drawer.classList.remove('open'); scrim.classList.remove('open');
+      document.body.style.overflow = '';
+    };
+    open.addEventListener('click', () => {
+      drawer.classList.add('open'); scrim.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+    $('#navClose').addEventListener('click', close);
+    scrim.addEventListener('click', close);
+  }
+  // search
+  const sBtn = $('#searchBtn'), panel = $('#searchPanel'), input = $('#searchInput');
+  if (sBtn && panel) {
+    sBtn.addEventListener('click', () => {
+      const hidden = panel.hidden;
+      panel.hidden = !hidden;
+      if (!hidden) { input.value = ''; $('#searchSuggest').innerHTML = ''; }
+      else input.focus();
+    });
+    document.addEventListener('click', e => {
+      if (!panel.hidden && !e.target.closest('.search-wrap')) panel.hidden = true;
+    });
+    let t;
+    input.addEventListener('input', () => {
+      clearTimeout(t);
+      t = setTimeout(() => renderSuggestions(input.value.trim()), 160);
+    });
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && input.value.trim()) {
+        location.href = 'collections.html?search=' + encodeURIComponent(input.value.trim());
+      }
+    });
+  }
+}
+function renderSuggestions(q) {
+  const box = $('#searchSuggest');
+  if (!q) { box.innerHTML = ''; return; }
+  const hits = PRODUCTS.filter(p =>
+    (p.name + ' ' + p.category + ' ' + (p.tags || []).join(' ')).toLowerCase().includes(q.toLowerCase())
+  ).slice(0, 6);
+  box.innerHTML = hits.length ? hits.map(p => `
+    <a href="product.html?id=${p.id}">
+      <img src="${p.images[0]}" alt="" loading="lazy">
+      <span>${esc(p.name)}<br><small style="color:var(--muted)">${esc(p.category)}</small></span>
+      <span class="s-price">${inr(p.salePrice)}</span>
+    </a>`).join('')
+    : `<p class="search-empty">No matches for “${esc(q)}”. Try “kurta”, “saree”…</p>`;
+}
+
+/* ==========================================================================
+   HERO slider
+   ========================================================================== */
+function initHero() {
+  const track = $('#heroTrack');
+  if (!track) return;
+  const slides = $all('.hero-slide', track);
+  const dots = $('#heroDots');
+  let i = 0, timer;
+  slides.forEach((_, n) => {
+    const d = document.createElement('button');
+    d.setAttribute('aria-label', 'Go to slide ' + (n + 1));
+    d.addEventListener('click', () => { go(n); restart(); });
+    dots.appendChild(d);
+  });
+  const dotBtns = $all('button', dots);
+  function go(n) {
+    i = (n + slides.length) % slides.length;
+    track.style.transform = `translateX(-${i * 100}%)`;
+    dotBtns.forEach((d, k) => d.classList.toggle('active', k === i));
+  }
+  function restart() { clearInterval(timer); timer = setInterval(() => go(i + 1), 5000); }
+  $('#heroPrev').addEventListener('click', () => { go(i - 1); restart(); });
+  $('#heroNext').addEventListener('click', () => { go(i + 1); restart(); });
+  // pause on touch so users can read
+  track.addEventListener('pointerdown', () => clearInterval(timer), { passive: true });
+  track.addEventListener('pointerup', restart, { passive: true });
+  go(0); restart();
+}
+
+/* ==========================================================================
+   HOME page
+   ========================================================================== */
+function railHTML(products) {
+  return products.map(productCardHTML).join('');
+}
+function initHome() {
+  const best = PRODUCTS.filter(p => (p.tags || []).includes('bestseller'));
+  const trend = PRODUCTS.filter(p => (p.tags || []).includes('trending'));
+  const ethnic = PRODUCTS.filter(p => p.category === 'Kurta Sets');
+  const jewel = PRODUCTS.filter(p => p.category === 'Jewellery');
+  const mount = (id, list) => {
+    const el = document.getElementById(id);
+    if (el) { el.innerHTML = railHTML(list); bindCardButtons(el); }
+  };
+  mount('railBestsellers', best);
+  mount('railTrending', trend);
+  mount('railEthnic', ethnic);
+  mount('railJewellery', jewel);
+}
+
+/* ==========================================================================
+   COLLECTIONS page — filters + sort
+   ========================================================================== */
+const Shop = {
+  cats: new Set(), colors: new Set(), prices: new Set(),
+  sort: 'featured', search: '',
+};
+function initCollections() {
+  const params = new URLSearchParams(location.search);
+  if (params.get('category')) Shop.cats.add(params.get('category'));
+  if (params.get('tag') === 'new') Shop._tagNew = true;
+  if (params.get('search')) Shop.search = params.get('search');
+  if (params.get('sort')) Shop.sort = params.get('sort');
+  if (params.get('wishlist') === '1') Shop._wishlist = true;
+
+  // build filter UI from catalog
+  const cats = [...new Set(PRODUCTS.map(p => p.category))];
+  $('#fCats').innerHTML = cats.map(c => `
+    <label class="f-check"><input type="checkbox" value="${esc(c)}" ${Shop.cats.has(c) ? 'checked' : ''}> ${esc(c)}</label>`).join('');
+  const colors = [...new Set(PRODUCTS.flatMap(p => p.colors || []))];
+  $('#fColors').innerHTML = colors.map(c => `
+    <button class="swatch ${Shop.colors.has(c) ? 'active' : ''}" data-color="${esc(c)}"
+      style="background:${swatchHex(c)}" title="${esc(c)}" aria-label="Filter by ${esc(c)}" aria-pressed="${Shop.colors.has(c)}"></button>`).join('');
+  $('#sortSel').value = Shop.sort;
+  if (Shop.search) $('#searchEcho').textContent = `Results for “${Shop.search}”`;
+
+  // events
+  $('#fCats').addEventListener('change', () => {
+    Shop.cats = new Set($all('#fCats input:checked').map(i => i.value));
+    applyShop();
+  });
+  $('#fColors').addEventListener('click', e => {
+    const b = e.target.closest('.swatch'); if (!b) return;
+    const c = b.dataset.color;
+    Shop.colors.has(c) ? Shop.colors.delete(c) : Shop.colors.add(c);
+    b.classList.toggle('active'); b.setAttribute('aria-pressed', Shop.colors.has(c));
+    applyShop();
+  });
+  $all('#fPrices input').forEach(i => i.addEventListener('change', () => {
+    Shop.prices = new Set($all('#fPrices input:checked').map(x => x.value));
+    applyShop();
+  }));
+  $('#minPrice').addEventListener('change', applyShop);
+  $('#maxPrice').addEventListener('change', applyShop);
+  $('#sortSel').addEventListener('change', e => { Shop.sort = e.target.value; applyShop(); });
+  $('#clearFilters').addEventListener('click', () => {
+    Shop.cats.clear(); Shop.colors.clear(); Shop.prices.clear();
+    Shop._tagNew = false; Shop._wishlist = false; Shop.search = '';
+    $('#minPrice').value = ''; $('#maxPrice').value = '';
+    history.replaceState(null, '', 'collections.html');
+    initCollections(); // rebuild UI
+  });
+  applyShop();
+}
+function priceInRange(p) {
+  if (!Shop.prices.size) return true;
+  return [...Shop.prices].some(r => {
+    if (r === 'u1000') return p.salePrice < 1000;
+    if (r === '1000-1500') return p.salePrice >= 1000 && p.salePrice <= 1500;
+    if (r === '1500p') return p.salePrice > 1500;
+    return true;
+  });
+}
+function applyShop() {
+  const min = parseInt($('#minPrice').value, 10), max = parseInt($('#maxPrice').value, 10);
+  let list = PRODUCTS.filter(p => {
+    if (Shop.cats.size && !Shop.cats.has(p.category)) return false;
+    if (Shop.colors.size && !(p.colors || []).some(c => Shop.colors.has(c))) return false;
+    if (!priceInRange(p)) return false;
+    if (!isNaN(min) && p.salePrice < min) return false;
+    if (!isNaN(max) && p.salePrice > max) return false;
+    if (Shop._wishlist && !Wishlist.has(p.id)) return false;
+    if (Shop._tagNew && !(p.tags || []).includes('new')) return false;
+    if (Shop.search && !(p.name + ' ' + p.category).toLowerCase().includes(Shop.search.toLowerCase())) return false;
+    return true;
+  });
+  if (Shop.sort === 'low') list.sort((a, b) => a.salePrice - b.salePrice);
+  if (Shop.sort === 'high') list.sort((a, b) => b.salePrice - a.salePrice);
+  if (Shop.sort === 'new') list.sort((a, b) =>
+    (((b.tags || []).includes('new')) - ((a.tags || []).includes('new'))));
+  const grid = $('#shopGrid');
+  $('#resultCount').textContent = `${list.length} product${list.length === 1 ? '' : 's'}`;
+  grid.innerHTML = list.length ? list.map(productCardHTML).join('') :
+    `<div class="empty-state"><h3>No matches found</h3><p>Try clearing a filter or two.</p></div>`;
+  bindCardButtons(grid);
+  // reflect category in the title when launched from a tile
+  if (Shop._wishlist) {
+    $('#shopTitle').textContent = 'My Wishlist';
+  } else if (Shop.cats.size === 1 && !Shop.search) {
+    $('#shopTitle').textContent = [...Shop.cats][0];
+  }
+}
+
+/* ==========================================================================
+   PRODUCT page
+   ========================================================================== */
+function initProduct() {
+  const id = new URLSearchParams(location.search).get('id');
+  const p = byId(id);
+  if (!p) {
+    $('#pdRoot').innerHTML = `<div class="empty-state"><h3>Product not found</h3>
+      <p><a href="collections.html" style="color:var(--cherry);text-decoration:underline">Back to shop</a></p></div>`;
+    return;
+  }
+  document.title = `${p.name} — MANNAT`;
+  $('#crumbName').textContent = p.name;
+  $('#crumbCat').textContent = p.category;
+  $('#crumbCat').href = 'collections.html?category=' + encodeURIComponent(p.category);
+
+  // gallery
+  $('#pdMainImg').src = p.images[0];
+  $('#pdMainImg').alt = p.name;
+  $('#pdThumbs').innerHTML = p.images.map((src, i) => `
+    <button class="${i === 0 ? 'active' : ''}" data-src="${src}" aria-label="View image ${i + 1}">
+      <img src="${src}" alt="${esc(p.name)} view ${i + 1}" loading="lazy"></button>`).join('');
+  $all('#pdThumbs button').forEach(b => b.addEventListener('click', () => {
+    $all('#pdThumbs button').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    $('#pdMainImg').src = b.dataset.src;
+  }));
+
+  // info
+  $('#pdName').textContent = p.name;
+  $('#pdCat').textContent = p.category;
+  $('#pdSale').textContent = inr(p.salePrice);
+  $('#pdMrp').textContent = inr(p.mrp);
+  $('#pdOff').textContent = discountPct(p) + '% OFF';
+  $('#pdColors').textContent = (p.colors || []).join(', ');
+  $('#pdDesc').textContent = p.description;
+  $('#pdSku').textContent = 'SKU: ' + p.id.toUpperCase();
+
+  // schema.org Product markup (SEO)
+  const ld = {
+    '@context': 'https://schema.org', '@type': 'Product',
+    name: p.name, category: p.category, description: p.description,
+    image: p.images.map(src => new URL(src, location.href).href),
+    sku: p.id,
+    offers: {
+      '@type': 'Offer', priceCurrency: 'INR', price: p.salePrice,
+      availability: 'https://schema.org/InStock'
+    }
+  };
+  const script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.textContent = JSON.stringify(ld);
+  document.head.appendChild(script);
+
+  // sizes
+  const sizeRow = $('#sizeRow');
+  const single = p.sizes.length === 1;
+  sizeRow.innerHTML = p.sizes.map((s, i) => `
+    <button class="size-btn ${single || i === 0 ? '' : ''} ${single ? 'active' : ''}"
+      data-size="${esc(s)}" ${single ? 'aria-pressed="true"' : ''}>${esc(s)}</button>`).join('');
+  let size = single ? p.sizes[0] : null;
+  $all('.size-btn', sizeRow).forEach(b => b.addEventListener('click', () => {
+    $all('.size-btn', sizeRow).forEach(x => { x.classList.remove('active'); x.setAttribute('aria-pressed', 'false'); });
+    b.classList.add('active'); b.setAttribute('aria-pressed', 'true');
+    size = b.dataset.size;
+  }));
+
+  // qty
+  let qty = 1;
+  $('#qMinus').addEventListener('click', () => { qty = Math.max(1, qty - 1); $('#qOut').textContent = qty; });
+  $('#qPlus').addEventListener('click', () => { qty = Math.min(10, qty + 1); $('#qOut').textContent = qty; });
+
+  // wishlist (page-level heart)
+  const wBtn = $('#pdWish');
+  const paintWish = () => {
+    const on = Wishlist.has(p.id);
+    wBtn.classList.toggle('active', on);
+    wBtn.setAttribute('aria-pressed', on);
+  };
+  paintWish();
+  wBtn.addEventListener('click', () => {
+    const added = Wishlist.toggle(p.id); paintWish(); updateBadges();
+    toast(added ? 'Saved to wishlist ♡' : 'Removed from wishlist');
+  });
+
+  $('#addBtn').addEventListener('click', () => {
+    if (!size) { toast('Please select a size first.'); sizeRow.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+    Cart.add(p.id, size, qty);
+    toast(p.name + ' added to bag ✓');
+    renderDrawer(); openCart();
+  });
+  $('#waBtn').addEventListener('click', () => buyNowWhatsApp(p.id, size, qty));
+
+  // accordions
+  $all('.acc-btn').forEach(b => b.addEventListener('click', () => {
+    const item = b.parentElement, panel = $('.acc-panel', item);
+    const open = item.classList.toggle('open');
+    panel.style.maxHeight = open ? panel.scrollHeight + 'px' : '0px';
+    b.setAttribute('aria-expanded', open);
+  }));
+
+  // related
+  const rel = PRODUCTS.filter(x => x.id !== p.id && x.category === p.category).slice(0, 4);
+  const relBox = $('#relGrid');
+  relBox.innerHTML = rel.map(productCardHTML).join('');
+  bindCardButtons(relBox);
+}
+
+/* ==========================================================================
+   CART page
+   ========================================================================== */
+function renderCartPage() {
+  const box = $('#cartPageItems');
+  if (!box) return; // not on cart page
+  const lines = Cart.detailed(PRODUCTS);
+  if (!lines.length) {
+    box.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+      <h3>Your bag is empty</h3><p>Beautiful things await you.</p>
+      <p style="margin-top:16px"><a class="btn" href="collections.html">Start Shopping</a></p></div>`;
+    $('#cartSummary').style.display = 'none';
+    return;
+  }
+  $('#cartSummary').style.display = '';
+  box.innerHTML = lines.map(d => `
+    <div class="c-item" style="background:var(--beige-light);border:1px solid var(--line);border-radius:14px;padding:12px">
+      <a href="product.html?id=${d.product.id}"><img src="${d.product.images[0]}" alt="${esc(d.product.name)}" loading="lazy"></a>
+      <div class="c-item-info">
+        <h4>${esc(d.product.name)}</h4>
+        <p class="c-meta">Size: ${esc(d.size)} · <span class="mrp" style="text-decoration:line-through">${inr(d.product.mrp)}</span></p>
+        <div class="c-item-row">
+          <div class="c-qty">
+            <button data-act="dec" data-i="${d.index}" aria-label="Decrease quantity">−</button>
+            <output>${d.qty}</output>
+            <button data-act="inc" data-i="${d.index}" aria-label="Increase quantity">+</button>
+          </div>
+          <span class="c-item-price">${inr(d.lineTotal)}</span>
+        </div>
+        <button class="c-remove" data-act="rm" data-i="${d.index}">Remove</button>
+      </div>
+    </div>`).join('');
+  const sub = Cart.subtotal(PRODUCTS);
+  $('#sumSubtotal').textContent = inr(sub);
+  $('#sumTotal').textContent = inr(sub);
+  $all('[data-act]', box).forEach(b => b.addEventListener('click', () => {
+    const i = +b.dataset.i, act = b.dataset.act;
+    if (act === 'inc') Cart.setQty(i, Cart.items[i].qty + 1);
+    if (act === 'dec') Cart.setQty(i, Cart.items[i].qty - 1);
+    if (act === 'rm') Cart.remove(i);
+    renderCartPage(); renderDrawer();
+  }));
+}
+function initCartPage() {
+  renderCartPage();
+  const co = $('#checkoutBtn');
+  if (co) co.addEventListener('click', checkoutWhatsApp);
+  const cc = $('#clearBtn');
+  if (cc) cc.addEventListener('click', () => { Cart.clear(); renderCartPage(); renderDrawer(); toast('Bag cleared.'); });
+}
+
+/* ==========================================================================
+   misc: newsletter, reveal-on-scroll, footer year
+   ========================================================================== */
+function initMisc() {
+  const y = $('#year'); if (y) y.textContent = new Date().getFullYear();
+  const form = $('#nlForm');
+  if (form) form.addEventListener('submit', e => {
+    e.preventDefault();
+    const em = $('#nlEmail').value.trim();
+    const msg = $('#nlMsg');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) {
+      msg.textContent = 'Please enter a valid email address.';
+      msg.style.color = '#FFD9A0'; return;
+    }
+    // ★ front-end only: hook this up to your email tool later
+    try { localStorage.setItem('mannat_newsletter', em); } catch (e) {}
+    msg.textContent = 'Welcome to the MANNAT family! Check your inbox soon. ♥';
+    msg.style.color = '#fff';
+    form.reset();
+  });
+  // reveal on scroll
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { threshold: 0.12 });
+  $all('.reveal').forEach(el => io.observe(el));
+}
+
+/* ==========================================================================
+   boot
+   ========================================================================== */
+document.addEventListener('DOMContentLoaded', async () => {
+  initHeader();
+  initMisc();
+  const page = document.body.dataset.page || 'home';
+  try {
+    // skeletons while the catalog loads
+    $all('[data-skeleton]').forEach(el => { el.innerHTML = skeletonHTML(4); });
+    await loadProducts();
+  } catch (e) {
+    $all('[data-skeleton]').forEach(el => {
+      el.innerHTML = `<div class="empty-state"><h3>Couldn’t load products</h3>
+        <p>Please check your connection and refresh.</p></div>`;
+    });
+    return;
+  }
+  updateBadges();
+  if (page === 'home') { initHero(); initHome(); }
+  if (page === 'collections') initCollections();
+  if (page === 'product') initProduct();
+  if (page === 'cart') initCartPage();
+  // re-run reveal for dynamically added cards
+  const io = new IntersectionObserver(es => es.forEach(en => {
+    if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+  }), { threshold: 0.08 });
+  $all('.pcard').forEach(el => { el.classList.add('reveal'); io.observe(el); });
+});
