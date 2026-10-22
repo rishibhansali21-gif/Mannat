@@ -32,7 +32,7 @@ mannat-store/
 ├── data/
 │   └── products.json     # ★ your product catalog — edit this to add products
 ├── assets/
-│   └── images/           # placeholder images (replace with your photos)
+│   └── images/           # 42 SVG placeholder images (tiny & crisp; swap with real photos anytime)
 └── README.md
 ```
 
@@ -83,7 +83,8 @@ Open `data/products.json`. Each product looks like this:
 ```
 
 - **Add a product:** copy a block, change the values, add its photos to
-  `assets/images/`. Use ~800×1000px JPGs for best results.
+  `assets/images/`. Any web format works (SVG, JPG, PNG) — ~800×1000px JPGs
+  look best for real product shots.
 - **% OFF badge** is calculated automatically from `mrp` and `salePrice`.
 - Home sections are automatic: `bestseller` → Bestsellers rail,
   `trending` → Trending Now, category `Kurta Sets` → Ethnic Store,
@@ -133,5 +134,5 @@ use the command above or any static server.)
   computed automatically.
 - Newsletter signup is front-end only (saved to localStorage) — connect it to
   your email tool (Mailchimp etc.) when ready; see the `★` comment in `js/main.js`.
-- Product photos here are placeholders — replace with real shoot images
-  before launch.
+- Product photos here are SVG placeholders — replace with real shoot images
+  (JPG/PNG) before launch; just update the paths in `data/products.json`.
