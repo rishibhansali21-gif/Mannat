@@ -299,33 +299,24 @@ function initProduct() {
     return;
   }
   document.title = `${p.name} — MANNAT`;
-  $('#crumbName').textContent = p.name;
-  $('#crumbCat').textContent = p.category;
-  $('#crumbCat').href = 'collections.html?category=' + encodeURIComponent(p.category);
 
-  // gallery
-  $('#pdMainImg').src = p.images[0];
-  $('#pdMainImg').alt = p.name;
-  $('#pdThumbs').innerHTML = p.images.map((src, i) => `
-    <button class="${i === 0 ? 'active' : ''}" data-src="${src}" aria-label="View image ${i + 1}">
-      <img src="${src}" alt="${esc(p.name)} view ${i + 1}" loading="lazy"></button>`).join('');
-  $all('#pdThumbs button').forEach(b => b.addEventListener('click', () => {
-    $all('#pdThumbs button').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    $('#pdMainImg').src = b.dataset.src;
-  }));
+  // gallery grid (2-column tiles; badges on the first tile)
+  $('#pdGallery').innerHTML = p.images.map((src, i) => `
+    <div class="pd2-tile">
+      <img src="${src}" alt="${esc(p.name)} view ${i + 1}" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}>
+      ${i === 0 ? '<span class="pd2-badge badge-gold">✦ Launching Soon</span><span class="pd2-badge badge-maroon">First Drop</span>' : ''}
+    </div>`).join('');
 
-  // info
+  // buy box info
   $('#pdName').textContent = p.name;
-  $('#pdCat').textContent = p.category;
+  $('#pdSubtitle').textContent = p.subtitle || p.category;
   $('#pdSale').textContent = inr(p.salePrice);
   $('#pdMrp').textContent = inr(p.mrp);
-  $('#pdOff').textContent = discountPct(p) + '% OFF';
   $('#pdColors').textContent = (p.colors || []).join(', ');
   $('#pdDesc').textContent = p.description;
   $('#pdSku').textContent = 'SKU: ' + p.id.toUpperCase();
 
-  // schema.org Product markup (SEO)
+  // schema.org Product markup (SEO) — PreOrder while launching soon
   const ld = {
     '@context': 'https://schema.org', '@type': 'Product',
     name: p.name, category: p.category, description: p.description,
@@ -333,7 +324,7 @@ function initProduct() {
     sku: p.id,
     offers: {
       '@type': 'Offer', priceCurrency: 'INR', price: p.salePrice,
-      availability: 'https://schema.org/InStock'
+      availability: 'https://schema.org/PreOrder'
     }
   };
   const script = document.createElement('script');
@@ -341,11 +332,11 @@ function initProduct() {
   script.textContent = JSON.stringify(ld);
   document.head.appendChild(script);
 
-  // sizes
+  // sizes (pill buttons)
   const sizeRow = $('#sizeRow');
   const single = p.sizes.length === 1;
   sizeRow.innerHTML = p.sizes.map((s, i) => `
-    <button class="size-btn ${single || i === 0 ? '' : ''} ${single ? 'active' : ''}"
+    <button class="size-btn ${single ? 'active' : ''}"
       data-size="${esc(s)}" ${single ? 'aria-pressed="true"' : ''}>${esc(s)}</button>`).join('');
   let size = single ? p.sizes[0] : null;
   $all('.size-btn', sizeRow).forEach(b => b.addEventListener('click', () => {
@@ -370,19 +361,21 @@ function initProduct() {
     pdForm.reset();
   });
 
-  // accordions
-  $all('.acc-btn').forEach(b => b.addEventListener('click', () => {
+  // accordions (Fit & Sizing starts open, like the reference)
+  $all('.acc-btn').forEach(b => {
     const item = b.parentElement, panel = $('.acc-panel', item);
-    const open = item.classList.toggle('open');
-    panel.style.maxHeight = open ? panel.scrollHeight + 'px' : '0px';
-    b.setAttribute('aria-expanded', open);
-  }));
+    if (item.classList.contains('open')) panel.style.maxHeight = panel.scrollHeight + 'px';
+    b.addEventListener('click', () => {
+      const open = item.classList.toggle('open');
+      panel.style.maxHeight = open ? panel.scrollHeight + 'px' : '0px';
+      b.setAttribute('aria-expanded', open);
+    });
+  });
 
-  // related
-  const rel = PRODUCTS.filter(x => x.id !== p.id && x.category === p.category).slice(0, 4);
-  const relBox = $('#relGrid');
-  relBox.innerHTML = rel.map(productCardHTML).join('');
-  bindCardButtons(relBox);
+  // Complete the Look: the rest of the first drop
+  const look = PRODUCTS.filter(x => x.id !== p.id);
+  const lookBox = $('#lookGrid');
+  if (lookBox) lookBox.innerHTML = look.map(productCardHTML).join('');
 }
 
 /* ==========================================================================

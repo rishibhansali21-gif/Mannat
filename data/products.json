@@ -1,1 +1,85 @@
-{"products":[{"category":"Kurtis","colors":["Grey","White"],"description":"Crisp grey-white checks with a sharp mandarin collar and a clean front-button placket. A modern everyday kurti that pairs beautifully with white pants, jeans or palazzos.","id":"kurti-grey-check","images":["assets/images/prod-kurti-grey-check-a.svg","assets/images/prod-kurti-grey-check-b.svg"],"mrp":1799,"name":"Grey Check Kurti","salePrice":999,"sizes":["S","M","L","XL","XXL"],"tags":["new"]},{"category":"Kurtis","colors":["Black","White"],"description":"Black base with a delicate grey-white floral line print, a round neckline with a small V slit and a white button front placket. Effortless elegance for daily wear and festive evenings.","id":"kurti-black-floral","images":["assets/images/prod-kurti-black-floral-a.svg","assets/images/prod-kurti-black-floral-b.svg"],"mrp":1999,"name":"Black Floral Kurti","salePrice":1099,"sizes":["S","M","L","XL","XXL"],"tags":["new"]},{"category":"Kurtis","colors":["Black","Grey"],"description":"Bold black-grey large checks with a V-neckline and front-button placket. A confident, contemporary kurti for office, college and casual days.","id":"kurti-black-check","images":["assets/images/prod-kurti-black-check-a.svg","assets/images/prod-kurti-black-check-b.svg"],"mrp":1999,"name":"Black Grey Check Kurti","salePrice":1099,"sizes":["S","M","L","XL","XXL"],"tags":["new"]}]}
+{
+  "products": [
+    {
+      "category": "Kurtis",
+      "colors": [
+        "Grey",
+        "White"
+      ],
+      "description": "Crisp grey-white checks with a sharp mandarin collar and a clean front-button placket. A modern everyday kurti that pairs beautifully with white pants, jeans or palazzos.",
+      "id": "kurti-grey-check",
+      "images": [
+        "assets/images/prod-kurti-grey-check-a.svg",
+        "assets/images/prod-kurti-grey-check-b.svg"
+      ],
+      "mrp": 1799,
+      "name": "Grey Check Kurti",
+      "salePrice": 999,
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "tags": [
+        "new"
+      ],
+      "subtitle": "Straight Kurti \u00b7 Mandarin Collar"
+    },
+    {
+      "category": "Kurtis",
+      "colors": [
+        "Black",
+        "White"
+      ],
+      "description": "Black base with a delicate grey-white floral line print, a round neckline with a small V slit and a white button front placket. Effortless elegance for daily wear and festive evenings.",
+      "id": "kurti-black-floral",
+      "images": [
+        "assets/images/prod-kurti-black-floral-a.svg",
+        "assets/images/prod-kurti-black-floral-b.svg"
+      ],
+      "mrp": 1999,
+      "name": "Black Floral Kurti",
+      "salePrice": 1099,
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "tags": [
+        "new"
+      ],
+      "subtitle": "Floral Line Print Kurti"
+    },
+    {
+      "category": "Kurtis",
+      "colors": [
+        "Black",
+        "Grey"
+      ],
+      "description": "Bold black-grey large checks with a V-neckline and front-button placket. A confident, contemporary kurti for office, college and casual days.",
+      "id": "kurti-black-check",
+      "images": [
+        "assets/images/prod-kurti-black-check-a.svg",
+        "assets/images/prod-kurti-black-check-b.svg"
+      ],
+      "mrp": 1999,
+      "name": "Black Grey Check Kurti",
+      "salePrice": 1099,
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "tags": [
+        "new"
+      ],
+      "subtitle": "V-Neck Check Kurti"
+    }
+  ]
+}

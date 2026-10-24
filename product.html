@@ -6,7 +6,7 @@
   <title>Product — MANNAT Ethnic Wear</title>
   <meta name="description" content="Shop this MANNAT ethnic wear piece. Free shipping, COD available, easy 7-day returns.">
   <meta property="og:type" content="product">
-  <meta name="theme-color" content="#9E1B32">
+  <meta name="theme-color" content="#8F1F2D">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -44,42 +44,31 @@
   </aside>
 
   <main class="wrap" id="pdRoot">
-    <nav class="crumbs" aria-label="Breadcrumb">
-      <a href="index.html">Home</a> / <a href="collections.html" id="crumbCat">Shop</a> / <span id="crumbName">Product</span>
-    </nav>
+    <!-- ★ MAIN PRODUCT SECTION: gallery grid (left) + buy box (right) -->
+    <div class="pd2-layout">
+      <div class="pd2-gallery" id="pdGallery"></div>
 
-    <div class="pd-layout">
-      <!-- ★ IMAGE GALLERY -->
-      <div class="pd-gallery">
-        <div class="pd-main"><img id="pdMainImg" src="" alt=""></div>
-        <div class="pd-thumbs" id="pdThumbs"></div>
-      </div>
+      <div class="pd2-buybox">
+        <h1 id="pdName"></h1>
+        <p class="pd2-subtitle" id="pdSubtitle"></p>
 
-      <!-- ★ PRODUCT INFO -->
-      <div class="pd-info">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
-          <div>
-            <p class="pcard-cat" id="pdCat"></p>
-            <h1 id="pdName"></h1>
-          </div>
-          </div>
-        <div class="pd-price">
+        <div class="pd2-price">
           <span class="sale" id="pdSale"></span>
           <span class="mrp" id="pdMrp"></span>
-          <span class="off" id="pdOff"></span>
         </div>
-        <p class="pd-tax">Inclusive of all taxes</p>
 
-        <p class="pd-label">Colors</p>
-        <p id="pdColors" style="font-size:0.92rem"></p>
+        <div class="pd2-size-head">
+          <span>Choose your size</span>
+          <a class="size-guide-link" href="#">Size guide</a>
+        </div>
+        <div class="size-row size-row-pills" id="sizeRow" role="radiogroup" aria-label="Sizes"></div>
 
-        <p class="pd-label">Select Size</p>
-        <div class="size-row" id="sizeRow" role="radiogroup" aria-label="Sizes"></div>
-        <a class="size-guide-link" href="#">Size Guide</a>
+        <p><span class="stock-pill">✦ Launching Soon</span></p>
+        <p class="pd2-ship">Ships on launch day · Free shipping on launch orders.<br>COD available · 7-day easy returns.</p>
 
         <div class="notify-box">
-          <p class="notify-box-title">✦ Launching Soon — Get Notified</p>
-          <p class="notify-box-sub">Be the first to shop this kurti on launch day.</p>
+          <p class="notify-box-title">✦ Get Notified on Launch Day</p>
+          <p class="notify-box-sub">Be the first to shop this kurti when we go live.</p>
           <form class="notify-form notify-form-dark" id="pdNotifyForm" novalidate>
             <input id="pdNotifyEmail" type="email" placeholder="Your email address" aria-label="Email address" required>
             <button class="btn" type="submit">Notify Me</button>
@@ -87,36 +76,105 @@
           <p class="notify-msg" id="pdNotifyMsg" role="status"></p>
         </div>
 
-        <div class="pd-meta">
-          <span><b id="pdSku"></b></span>
-          <span>🚚 Free shipping · COD available</span>
-          <span>↩️ 7-day easy returns</span>
+        <div class="pd2-trust">
+          <div><span>🚚</span><b>Free Shipping</b><small>On launch orders</small></div>
+          <div><span>↩️</span><b>Easy Returns</b><small>7-day returns</small></div>
+          <div><span>💵</span><b>COD Available</b><small>Pay on delivery</small></div>
+          <div><span>🔒</span><b>Secure Checkout</b><small>UPI, cards &amp; more</small></div>
         </div>
 
-        <div class="acc">
-          <div class="acc-item">
-            <button class="acc-btn" aria-expanded="false">Description</button>
-            <div class="acc-panel"><div id="pdDesc"></div></div>
-          </div>
-          <div class="acc-item">
-            <button class="acc-btn" aria-expanded="false">Delivery &amp; Returns</button>
-            <div class="acc-panel"><div>Dispatched in 24–48 hours. Delivery in 3–7 working days across India. 7-day easy returns — no questions asked. COD available.</div></div>
-          </div>
-          <div class="acc-item">
-            <button class="acc-btn" aria-expanded="false">Fabric &amp; Care</button>
-            <div class="acc-panel"><div>Gentle machine wash or hand wash in cold water. Dry in shade. Warm iron on reverse. Colors may vary slightly due to photography.</div></div>
-          </div>
+        <div class="pd2-offer">
+          <b>First Drop Offer</b>
+          <span>Launch-day prices locked for waitlist members. Join above to claim yours.</span>
         </div>
+
+        <p class="pd2-meta"><b id="pdSku"></b> · <span id="pdColors"></span></p>
       </div>
     </div>
 
-    <!-- ★ RELATED PRODUCTS -->
-    <section class="section related">
+    <!-- ★ DETAIL ACCORDIONS -->
+    <div class="acc acc2">
+      <div class="acc-item">
+        <button class="acc-btn" aria-expanded="false">Details &amp; Description</button>
+        <div class="acc-panel"><div id="pdDesc"></div></div>
+      </div>
+      <div class="acc-item open">
+        <button class="acc-btn" aria-expanded="true">Fit &amp; Sizing</button>
+        <div class="acc-panel">
+          <ul class="fit-list">
+            <li>Straight-cut silhouette that skims the body — not too loose, not too fitted.</li>
+            <li>True to size — order your usual size.</li>
+            <li>3/4 sleeves, knee-length, comfortable for all-day wear.</li>
+          </ul>
+          <p class="fit-meter-label">HOW DOES IT FIT?</p>
+          <div class="fit-meter" aria-label="Fit: true to size, 3 out of 5">
+            <span></span><span></span><span class="on"></span><span></span><span></span>
+          </div>
+          <p class="fit-meter-scale"><span>Runs small</span><b>True to size</b><span>Runs large</span></p>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-btn" aria-expanded="false">Shipping &amp; Delivery</button>
+        <div class="acc-panel"><div>Ships on launch day. Delivery in 3–7 working days across India, with live tracking. Free shipping on launch orders. COD available.</div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-btn" aria-expanded="false">Refund &amp; Return</button>
+        <div class="acc-panel"><div>7-day easy returns and size exchanges — no questions asked. Refunds are issued to your original payment method within 3–5 working days of pickup.</div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-btn" aria-expanded="false">Why You'll Love It</button>
+        <div class="acc-panel"><div>Premium breathable fabric, thoughtful detailing, and a fit made for real Indian days — office, college, festive evenings and everything in between. Crafted with love, priced with honesty.</div></div>
+      </div>
+    </div>
+
+    <!-- ★ COMPLETE THE LOOK -->
+    <section class="section">
       <div class="section-head">
-        <div><h2>You May Also Like</h2></div>
+        <div><h2>Complete The Look</h2><p class="section-sub">Pairs beautifully with the rest of the first drop</p></div>
         <a class="view-all" href="collections.html">View all →</a>
       </div>
-      <div class="rail" id="relGrid"></div>
+      <div class="product-grid" id="lookGrid"></div>
+    </section>
+
+    <!-- ★ FAQ -->
+    <section class="section" style="padding-top:0">
+      <div class="section-head">
+        <div><h2>Questions Before You Choose?</h2></div>
+      </div>
+      <div class="acc acc2">
+        <div class="acc-item">
+          <button class="acc-btn" aria-expanded="false">When does MANNAT launch?</button>
+          <div class="acc-panel"><div>Very soon! Join the waitlist on this page and we will email you the moment the first drop goes live — waitlist members shop first.</div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn" aria-expanded="false">Is Cash on Delivery (COD) available?</button>
+          <div class="acc-panel"><div>Yes — COD will be available across India on launch day, along with UPI, cards and netbanking.</div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn" aria-expanded="false">What if my size doesn't fit?</button>
+          <div class="acc-panel"><div>No worries — size exchanges are free within 7 days of delivery. Check the Fit &amp; Sizing section above, or write to us and we will help you pick.</div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn" aria-expanded="false">How do refunds work?</button>
+          <div class="acc-panel"><div>Refunds are issued to your original payment method within 3–5 working days after your return is picked up.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ★ CRAFTSMANSHIP STRIP -->
+    <section class="section" style="padding-top:0">
+      <div class="story">
+        <div class="story-grid">
+          <div>
+            <p class="hindi">मन्नत</p>
+            <h2>Our Craftsmanship Story</h2>
+            <p>Every MANNAT kurti starts with fine, breathable fabric and ends with careful finishing — neat seams, honest prints, and details that last wash after wash. Woven with grace, blessed with beauty.</p>
+          </div>
+          <div>
+            <img src="assets/images/hero-2.svg" alt="MANNAT craftsmanship" loading="lazy" style="border-radius:14px;border:1px solid var(--gold)">
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
