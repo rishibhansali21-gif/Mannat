@@ -1,16 +1,21 @@
 # MANNAT — Ethnic Wear Storefront
 
-A complete, premium e-commerce website for the Indian ethnic wear brand
-**MANNAT** — *“Woven with grace, blessed with beauty.”* (मन्नत) Pure HTML5 + CSS3 + vanilla JavaScript — no frameworks, no build
+A **launching-soon** website for the Indian ethnic wear brand
+**MANNAT** — *“Woven with grace, blessed with beauty.”* (मन्नत)
+
+> The site is currently a launch teaser: a Launching Soon landing page with a
+> waitlist signup, plus a single listing — **The First Drop: 3 kurtis** — with
+> product pages that collect launch-day notify-me emails. No cart, checkout or
+> payments are live yet. Pure HTML5 + CSS3 + vanilla JavaScript — no frameworks, no build
 step. Host it free on GitHub Pages.
 
 ## What you get
 
 | Page | File | What it does |
 |---|---|---|
-| Home | `index.html` | Slim announcement bar, premium transparent-to-solid sticky header, editorial hero slider, Shop by Collection, New Arrivals & Bestsellers grids, promo collection cards, brand story, trust strip, reviews, Instagram strip, newsletter, footer |
+| Home | `index.html` | Launching Soon hero with waitlist signup, transparent-to-solid sticky header, The First Drop (3 kurtis), brand story, waitlist newsletter, footer |
 | Shop | `collections.html` | Category, price & color filters, sorting, live search results, wishlist view |
-| Product | `product.html?id=...` | Image gallery, size & quantity selectors, Add to Cart, Buy on WhatsApp, accordions, related products, schema.org markup |
+| Product | `product.html?id=...` | Image gallery, size selector, launch-day Notify Me form, accordions, related products, schema.org markup |
 | Bag | `cart.html` | Quantity update, remove, subtotal, WhatsApp checkout |
 
 Cart & wishlist persist in `localStorage`. Checkout opens WhatsApp with the
@@ -70,7 +75,7 @@ Open `data/products.json`. Each product looks like this:
 {
   "id": "kurta-gulnaar",                 // unique, no spaces
   "name": "Gulnaar Straight Kurta Set",
-  "category": "Kurtis",                 // Kurtis | Co-ord Sets
+  "category": "Kurtis",                 // currently only Kurtis — the launch drop
   "images": ["assets/images/prod-kurta-gulnaar-a.jpg",
              "assets/images/prod-kurta-gulnaar-b.jpg"],
   "mrp": 1999,                          // strikethrough price
@@ -86,9 +91,8 @@ Open `data/products.json`. Each product looks like this:
   `assets/images/`. Any web format works (SVG, JPG, PNG) — ~800×1000px JPGs
   look best for real product shots.
 - **% OFF badge** is calculated automatically from `mrp` and `salePrice`.
-- Home sections are automatic: `bestseller` → Bestsellers grid, `new` → New Arrivals grid.
-  Promo cards link to tag collections: `wedding` → Wedding Collection,
-  `under999` → Under ₹999, `everyday` → Everyday Elegance.
+- The home page shows every product in `products.json` as The First Drop.
+  To add a kurti, just append it to the JSON — it appears on home and in the listing.
 
 ## (d) Change WhatsApp number & brand details
 

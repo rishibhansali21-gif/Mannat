@@ -15,7 +15,7 @@
 </head>
 <body data-page="product">
 
-  <div class="announce"><span>Free Shipping</span><span>COD Available</span><span>Easy Returns</span></div>
+  <div class="announce"><span>Launching Soon</span><span>Our First Drop is Coming</span><span>Join the Waitlist</span></div>
 
   <header class="site-header">
     <div class="wrap header-inner">
@@ -25,34 +25,9 @@
       <a href="index.html" class="logo" aria-label="MANNAT home">MANNAT<small>WOVEN WITH GRACE</small></a>
       <nav class="desktop-nav" aria-label="Primary">
         <a href="index.html">Home</a>
-        <a href="collections.html">Shop All</a>
-        <a href="collections.html?tag=wedding">Wedding</a>
-        <a href="collections.html?category=Kurtis">Kurtis</a>
-        <a href="collections.html?category=Co-ord%20Sets">Co-ord Sets</a>
+        <a href="collections.html">Kurtis</a>
       </nav>
       <div class="header-spacer"></div>
-      <div class="search-wrap">
-        <button class="icon-btn" id="searchBtn" aria-label="Search products">
-          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
-        </button>
-      </div>
-      <a class="icon-btn" href="#" aria-label="Account">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.8-4 5-6 8-6s6.2 2 8 6"/></svg>
-      </a>
-      <a class="icon-btn" href="collections.html?wishlist=1" aria-label="Wishlist">
-        <svg viewBox="0 0 24 24"><path d="M12 20.5s-8-5.1-10.5-9.7C.2 7.9 2.2 4.5 5.6 4.5c2 0 3.6 1.2 4.4 2.9 1.2-1.7 3-2.9 5-2.9 3.4 0 5.4 3.4 4.1 6.3C20 15.4 12 20.5 12 20.5z"/></svg>
-        <span class="count-badge" id="wishCount" hidden>0</span>
-      </a>
-      <button class="icon-btn" id="cartBtn" aria-label="Open shopping bag">
-        <svg viewBox="0 0 24 24"><path d="M6 8h12l-1.2 12.2a1 1 0 0 1-1 .8H8.2a1 1 0 0 1-1-.8L6 8z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>
-        <span class="count-badge" id="cartCount" hidden>0</span>
-      </button>
-    </div>
-    <div class="search-panel" id="searchPanel" hidden>
-      <div class="wrap">
-        <input id="searchInput" type="search" placeholder="Search kurtis, co-ord sets…" aria-label="Search products" autocomplete="off">
-        <div class="search-suggest" id="searchSuggest" role="listbox"></div>
-      </div>
     </div>
   </header>
 
@@ -64,12 +39,7 @@
     </div>
     <nav>
       <a href="index.html">Home</a>
-      <a href="collections.html">Shop All</a>
-      <a class="cat-link" href="collections.html?tag=wedding">Wedding Collection</a>
-      <a class="cat-link" href="collections.html?category=Kurtis">Kurtis</a>
-      <a class="cat-link" href="collections.html?category=Co-ord%20Sets">Co-ord Sets</a>
-      <a href="collections.html?tag=new">✨ New Arrivals</a>
-      <a href="collections.html?wishlist=1">♡ My Wishlist</a>
+      <a href="collections.html">Kurtis — The First Drop</a>
     </nav>
   </aside>
 
@@ -92,11 +62,7 @@
             <p class="pcard-cat" id="pdCat"></p>
             <h1 id="pdName"></h1>
           </div>
-          <button class="wish-btn" id="pdWish" style="position:static;flex:0 0 auto" aria-label="Save to wishlist" aria-pressed="false">
-            <svg viewBox="0 0 24 24"><path d="M12 20.5s-8-5.1-10.5-9.7C.2 7.9 2.2 4.5 5.6 4.5c2 0 3.6 1.2 4.4 2.9 1.2-1.7 3-2.9 5-2.9 3.4 0 5.4 3.4 4.1 6.3C20 15.4 12 20.5 12 20.5z"/></svg>
-          </button>
-        </div>
-        <p class="pd-rating">★★★★★ <span>(4.6 · 230+ reviews)</span></p>
+          </div>
         <div class="pd-price">
           <span class="sale" id="pdSale"></span>
           <span class="mrp" id="pdMrp"></span>
@@ -111,16 +77,14 @@
         <div class="size-row" id="sizeRow" role="radiogroup" aria-label="Sizes"></div>
         <a class="size-guide-link" href="#">Size Guide</a>
 
-        <p class="pd-label">Quantity</p>
-        <div class="qty-row">
-          <button id="qMinus" aria-label="Decrease quantity">−</button>
-          <output id="qOut">1</output>
-          <button id="qPlus" aria-label="Increase quantity">+</button>
-        </div>
-
-        <div class="pd-actions">
-          <button class="btn btn-block" id="addBtn">Add to Cart</button>
-          <button class="btn btn-whatsapp btn-block" id="waBtn">Buy on WhatsApp</button>
+        <div class="notify-box">
+          <p class="notify-box-title">✦ Launching Soon — Get Notified</p>
+          <p class="notify-box-sub">Be the first to shop this kurti on launch day.</p>
+          <form class="notify-form notify-form-dark" id="pdNotifyForm" novalidate>
+            <input id="pdNotifyEmail" type="email" placeholder="Your email address" aria-label="Email address" required>
+            <button class="btn" type="submit">Notify Me</button>
+          </form>
+          <p class="notify-msg" id="pdNotifyMsg" role="status"></p>
         </div>
 
         <div class="pd-meta">
@@ -160,25 +124,18 @@
     <div class="wrap footer-grid">
       <div class="footer-brand">
         <span class="logo">MANNAT</span>
-        <p>Woven with grace, blessed with beauty. Premium Indian ethnic wear for the modern woman — crafted with love, priced with honesty.</p>
+        <p>Woven with grace, blessed with beauty. Premium Indian ethnic wear for the modern woman — launching soon.</p>
         <div class="social-row">
           <a href="#" aria-label="Instagram">IG</a>
           <a href="#" aria-label="Facebook">FB</a>
           <a href="#" aria-label="YouTube">YT</a>
           <a href="#" aria-label="WhatsApp">WA</a>
         </div>
-        <div class="pay-row" aria-label="Accepted payments">
-          <span>UPI</span><span>VISA</span><span>MASTERCARD</span><span>RUPAY</span><span>COD</span><span>NET BANKING</span>
-        </div>
       </div>
       <div>
         <p class="f-title">Shop</p>
         <ul>
-          <li><a href="collections.html?tag=new">New Arrivals</a></li>
-          <li><a href="collections.html?tag=wedding">Wedding</a></li>
-          <li><a href="collections.html?category=Kurtis">Kurtis</a></li>
-          <li><a href="collections.html?category=Co-ord%20Sets">Co-ord Sets</a></li>
-          <li><a href="collections.html?tag=under999">Under ₹999</a></li>
+          <li><a href="collections.html">Kurtis — The First Drop</a></li>
         </ul>
       </div>
       <div>

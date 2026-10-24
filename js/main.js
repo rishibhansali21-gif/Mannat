@@ -16,10 +16,10 @@ const CONFIG = {
 
 /* color name -> swatch hex (used on the collections filter) — ★ add yours */
 const COLOR_HEX = {
-  'Maroon': '#6E1423', 'Cherry Red': '#9E1B32', 'Red': '#C0392B',
-  'Beige': '#E9DCC8', 'Gold': '#C9A24B', 'Peach': '#F2C9A8',
+  'Maroon': '#8F1F2D', 'Red': '#C0392B',
+  'Beige': '#E9DCC8', 'Gold': '#C8A96A', 'Peach': '#F2C9A8',
   'Olive': '#6B7245', 'Sage': '#9CAF88', 'Black': '#1c1a19',
-  'Terracotta': '#C96F4A', 'White': '#ffffff'
+  'Grey': '#8A8A8A', 'Terracotta': '#C96F4A', 'White': '#ffffff'
 };
 const swatchHex = name => COLOR_HEX[name] || '#E9DCC8';
 
@@ -39,16 +39,13 @@ const discountPct = p => Math.round((1 - p.salePrice / p.mrp) * 100);
 
 /* ---------- shared product card ---------- */
 function productCardHTML(p) {
-  const wished = Wishlist.has(p.id) ? 'active' : '';
+  // Launching Soon: cards link to the product page — no cart, no wishlist yet.
   return `
   <article class="pcard" data-id="${p.id}">
     <a class="pcard-media" href="product.html?id=${p.id}" aria-label="${esc(p.name)}">
       <img src="${p.images[0]}" alt="${esc(p.name)}" loading="lazy">
     </a>
     <span class="off-badge">${discountPct(p)}% OFF</span>
-    <button class="wish-btn ${wished}" data-id="${p.id}" aria-label="Add to wishlist" aria-pressed="${!!wished}">
-      <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.9-10-9.3C.4 8.6 2.3 5 5.8 5c2 0 3.4 1.1 4.2 2.4h4C14.8 6.1 16.2 5 18.2 5c3.5 0 5.4 3.6 3.8 6.7C19.5 16.1 12 21 12 21z" transform="scale(0.9) translate(1.3,1.3)"/></svg>
-    </button>
     <div class="pcard-body">
       <span class="pcard-cat">${esc(p.category)}</span>
       <a href="product.html?id=${p.id}"><h3 class="pcard-name">${esc(p.name)}</h3></a>
@@ -56,7 +53,7 @@ function productCardHTML(p) {
         <span class="sale">${inr(p.salePrice)}</span>
         <span class="mrp">${inr(p.mrp)}</span>
       </div>
-      <button class="pcard-add" data-add="${p.id}">Add to Cart</button>
+      <a class="pcard-add" href="product.html?id=${p.id}">View Details</a>
     </div>
   </article>`;
 }
@@ -182,12 +179,9 @@ function railHTML(products) {
   return products.map(productCardHTML).join('');
 }
 function initHome() {
-  const grid = (id, list) => {
-    const el = document.getElementById(id);
-    if (el) { el.innerHTML = list.map(productCardHTML).join(''); bindCardButtons(el); }
-  };
-  grid('gridNew', PRODUCTS.filter(p => (p.tags || []).includes('new')));
-  grid('gridBestsellers', PRODUCTS.filter(p => (p.tags || []).includes('bestseller')));
+  // The First Drop: all 3 launch kurtis
+  const el = document.getElementById('gridFirstDrop');
+  if (el) { el.innerHTML = PRODUCTS.map(productCardHTML).join(''); }
   // premium transparent header -> solid on scroll (home only)
   const header = document.getElementById('siteHeader');
   if (header) {
@@ -301,7 +295,7 @@ function initProduct() {
   const p = byId(id);
   if (!p) {
     $('#pdRoot').innerHTML = `<div class="empty-state"><h3>Product not found</h3>
-      <p><a href="collections.html" style="color:var(--cherry);text-decoration:underline">Back to shop</a></p></div>`;
+      <p><a href="collections.html" style="color:var(--maroon);text-decoration:underline">Back to shop</a></p></div>`;
     return;
   }
   document.title = `${p.name} — MANNAT`;
@@ -360,31 +354,21 @@ function initProduct() {
     size = b.dataset.size;
   }));
 
-  // qty
-  let qty = 1;
-  $('#qMinus').addEventListener('click', () => { qty = Math.max(1, qty - 1); $('#qOut').textContent = qty; });
-  $('#qPlus').addEventListener('click', () => { qty = Math.min(10, qty + 1); $('#qOut').textContent = qty; });
-
-  // wishlist (page-level heart)
-  const wBtn = $('#pdWish');
-  const paintWish = () => {
-    const on = Wishlist.has(p.id);
-    wBtn.classList.toggle('active', on);
-    wBtn.setAttribute('aria-pressed', on);
-  };
-  paintWish();
-  wBtn.addEventListener('click', () => {
-    const added = Wishlist.toggle(p.id); paintWish(); updateBadges();
-    toast(added ? 'Saved to wishlist ♡' : 'Removed from wishlist');
+  // Launching Soon: notify-me form instead of cart actions
+  const pdForm = $('#pdNotifyForm');
+  if (pdForm) pdForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const em = $('#pdNotifyEmail').value.trim();
+    const msg = $('#pdNotifyMsg');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) {
+      msg.textContent = 'Please enter a valid email address.';
+      msg.style.color = '#FFD9A0'; return;
+    }
+    try { localStorage.setItem('mannat_notify_' + p.id, em); } catch (err) {}
+    msg.textContent = 'You are on the list! We will email you on launch day. ♥';
+    msg.style.color = 'var(--gold)';
+    pdForm.reset();
   });
-
-  $('#addBtn').addEventListener('click', () => {
-    if (!size) { toast('Please select a size first.'); sizeRow.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
-    Cart.add(p.id, size, qty);
-    toast(p.name + ' added to bag ✓');
-    renderDrawer(); openCart();
-  });
-  $('#waBtn').addEventListener('click', () => buyNowWhatsApp(p.id, size, qty));
 
   // accordions
   $all('.acc-btn').forEach(b => b.addEventListener('click', () => {
@@ -471,6 +455,21 @@ function initMisc() {
     msg.textContent = 'Welcome to the MANNAT family! Check your inbox soon. ♥';
     msg.style.color = '#fff';
     form.reset();
+  });
+  // hero launching-soon notify form (same waitlist)
+  const heroForm = $('#heroNotifyForm');
+  if (heroForm) heroForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const em = $('#heroNotifyEmail').value.trim();
+    const msg = $('#heroNotifyMsg');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) {
+      msg.textContent = 'Please enter a valid email address.';
+      msg.style.color = '#FFD9A0'; return;
+    }
+    try { localStorage.setItem('mannat_newsletter', em); } catch (err) {}
+    msg.textContent = 'You are on the waitlist! We will email you on launch day. ♥';
+    msg.style.color = '#fff';
+    heroForm.reset();
   });
   // reveal on scroll
   const io = new IntersectionObserver(entries => {
