@@ -55,7 +55,14 @@
         <div class="pd2-price">
           <span class="sale" id="pdSale"></span>
           <span class="mrp" id="pdMrp"></span>
+          <span class="sale-badge">Sale</span>
         </div>
+
+        <table class="pd2-specs">
+          <tr><td>Style</td><td id="pdStyle"></td></tr>
+          <tr><td>Color</td><td id="pdSpecColors"></td></tr>
+          <tr><td>Fit</td><td>True to size</td></tr>
+        </table>
 
         <div class="pd2-size-head">
           <span>Choose your size</span>
@@ -63,11 +70,11 @@
         </div>
         <div class="size-row size-row-pills" id="sizeRow" role="radiogroup" aria-label="Sizes"></div>
 
-        <p><span class="stock-pill">✦ Launching Soon</span></p>
+        <p><span class="stock-pill">Launching Soon</span></p>
         <p class="pd2-ship">Ships on launch day · Free shipping on launch orders.<br>COD available · 7-day easy returns.</p>
 
         <div class="notify-box">
-          <p class="notify-box-title">✦ Get Notified on Launch Day</p>
+          <p class="notify-box-title">Get Notified on Launch Day</p>
           <p class="notify-box-sub">Be the first to shop this kurti when we go live.</p>
           <form class="notify-form notify-form-dark" id="pdNotifyForm" novalidate>
             <input id="pdNotifyEmail" type="email" placeholder="Your email address" aria-label="Email address" required>
@@ -76,22 +83,18 @@
           <p class="notify-msg" id="pdNotifyMsg" role="status"></p>
         </div>
 
-        <div class="pd2-trust">
+        <div class="pd2-minimal-trust">
           <div>
-            <span class="trust-ic"><svg viewBox="0 0 24 24"><path d="M2.5 6.5H13v9H2.5zM13 10h4.2L20.5 13.5v2H13"/><circle cx="6.5" cy="17.5" r="1.7"/><circle cx="17" cy="17.5" r="1.7"/></svg></span>
-            <b>Free Shipping</b><small>On launch orders</small>
+            <span class="mt-ic"><svg viewBox="0 0 24 24"><rect x="2.5" y="6.5" width="19" height="11" rx="1.5"/><circle cx="12" cy="12" r="2.4"/><path d="M6 9.5v.01M18 14.5v.01"/></svg></span>
+            <div><b>Cash On Delivery</b><small>Available</small></div>
           </div>
           <div>
-            <span class="trust-ic"><svg viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1M3.5 4.5v4.5h4.5"/></svg></span>
-            <b>Easy Returns</b><small>7-day returns</small>
+            <span class="mt-ic"><svg viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1M3.5 4.5v4.5h4.5"/></svg></span>
+            <div><b>Easy 7 Days</b><small>Returns and Exchange</small></div>
           </div>
           <div>
-            <span class="trust-ic"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6.5 9.5v.01M17.5 14.5v.01"/></svg></span>
-            <b>COD Available</b><small>Pay on delivery</small>
-          </div>
-          <div>
-            <span class="trust-ic"><svg viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="9.5" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15" r="1.2"/></svg></span>
-            <b>Secure Checkout</b><small>UPI, cards &amp; more</small>
+            <span class="mt-ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+            <div><b>Secure Checkout</b><small>UPI, cards &amp; more</small></div>
           </div>
         </div>
 
@@ -100,7 +103,7 @@
           <span>Launch-day prices locked for waitlist members. Join above to claim yours.</span>
         </div>
 
-        <p class="pd2-meta"><b id="pdSku"></b> · <span id="pdColors"></span></p>
+        <p class="pd2-meta"><b id="pdSku"></b></p>
       </div>
     </div>
 
@@ -123,6 +126,15 @@
             <span></span><span></span><span class="on"></span><span></span><span></span>
           </div>
           <p class="fit-meter-scale"><span>Runs small</span><b>True to size</b><span>Runs large</span></p>
+          <table class="size-chart">
+            <tr><th>Size</th><th>Chest</th><th>Waist</th><th>Hip</th></tr>
+            <tr><td>S</td><td>36″</td><td>30″</td><td>38″</td></tr>
+            <tr><td>M</td><td>38″</td><td>32″</td><td>40″</td></tr>
+            <tr><td>L</td><td>40″</td><td>34″</td><td>42″</td></tr>
+            <tr><td>XL</td><td>42″</td><td>36″</td><td>44″</td></tr>
+            <tr><td>XXL</td><td>44″</td><td>38″</td><td>46″</td></tr>
+          </table>
+          <p class="size-chart-note">Body measurements in inches. Between sizes? Size up for a relaxed fit.</p>
         </div>
       </div>
       <div class="acc-item">

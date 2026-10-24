@@ -304,7 +304,7 @@ function initProduct() {
   $('#pdGallery').innerHTML = p.images.map((src, i) => `
     <div class="pd2-tile">
       <img src="${src}" alt="${esc(p.name)} view ${i + 1}" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}>
-      ${i === 0 ? '<span class="pd2-badge badge-gold">✦ Launching Soon</span><span class="pd2-badge badge-maroon">First Drop</span>' : ''}
+      ${i === 0 ? '<span class="pd2-badge badge-gold">Launching Soon</span><span class="pd2-badge badge-maroon">First Drop</span>' : ''}
     </div>`).join('');
 
   // buy box info
@@ -312,7 +312,8 @@ function initProduct() {
   $('#pdSubtitle').textContent = p.subtitle || p.category;
   $('#pdSale').textContent = inr(p.salePrice);
   $('#pdMrp').textContent = inr(p.mrp);
-  $('#pdColors').textContent = (p.colors || []).join(', ');
+  $('#pdStyle').textContent = p.subtitle || p.category;
+  $('#pdSpecColors').textContent = (p.colors || []).join(', ');
   $('#pdDesc').textContent = p.description;
   $('#pdSku').textContent = 'SKU: ' + p.id.toUpperCase();
 
